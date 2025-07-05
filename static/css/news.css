@@ -1,0 +1,22 @@
+/* Outline “back” button */
+.btn-outline-bitcoin {
+  border: 1px solid var(--btc-orange);
+  color: var(--btc-orange);
+  background: transparent;
+}
+.btn-outline-bitcoin:hover {
+  background-color: var(--btc-orange);
+  color: #fff;
+}
+
+/* Make sure images/videos in content scale */
+.content-body img,
+.content-body iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* (Optional) add spacing under the title in detail view */
+.news-detail-card .card-title {
+  margin-bottom: 0.5rem;
+}
