@@ -3,7 +3,7 @@ import json
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
@@ -97,8 +97,12 @@ class CustomLoginView(LoginView):
 
 
 
-class CustomLogoutView:
-    pass
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy('authapp:login')
+
+    def dispatch(self, request, *args, **kwargs):
+        messages.info(self.request, _("See you later!"))
+        return super().dispatch(request, *args, **kwargs)
 
 
 class CustomRegisterView(CreateView):
