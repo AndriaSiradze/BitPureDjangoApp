@@ -46,14 +46,3 @@ class Url(models.Model):
         db_table = 'urls'
 
 
-class User(models.Model):
-    user_id = models.BigIntegerField(primary_key=True)
-    username = models.CharField(max_length=128, blank=True, null=True)
-    full_name = models.CharField(max_length=128)
-    active = models.BooleanField()
-    language = models.CharField(max_length=10)
-    created_at = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'users'

@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -25,9 +24,10 @@ SECRET_KEY = 'django-insecure-lb!tq-jx6)e=p=3qp1@6u!6heqlj&eolm*^xww!4&8)oj_hv02
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    'https://16a73401b4ab.ngrok-free.app',
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,7 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # локальная аутентификация
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    # соц-авторизация
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.telegram',
+
+    'crispy_forms',
+    'crispy_bootstrap4',
     'blogapp.apps.BlogConfig',
+    'authapp.apps.AuthappConfig'
+
 ]
 
 MIDDLEWARE = [
@@ -48,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'BitNewsWebSite.urls'
@@ -70,7 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'BitNewsWebSite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -84,7 +96,6 @@ DATABASES = {
         'PORT': '5434',  # default PostgreSQL port
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -104,7 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -116,7 +126,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
@@ -126,3 +135,26 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'authapp.User'
+
+LOGIN_REDIRECT_URL = 'blogapp:index'
+LOGOUT_REDIRECT_URL = 'blogapp:index'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+TELEGRAM_LOGIN_BOT_USERNAME = 'BitPureNews_bot'
+TELEGRAM_LOGIN_BOT_TOKEN = '7575574999:AAEQxxVC-vPHVijp1DG2zh_owF3yUukfB6s'
+TELEGRAM_LOGIN_REDIRECT_URL = 'blogapp:index'
+SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = {
+    'telegram': {
+        'APP': {
+            'client_id': '7575574999',  # числовой ID бота из BotFather
+            'secret': '7575574999:AAEQxxVC-vPHVijp1DG2zh_owF3yUukfB6s',  # полный токен: '123456:ABC…'
+        },
+        # время жизни данных от Telegram (в секундах)
+        'AUTH_PARAMS': {'auth_date_validity': 300},
+    }
+}

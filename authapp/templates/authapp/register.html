@@ -1,0 +1,50 @@
+{% extends 'blogapp/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Регистрация – Bit News{% endblock %}
+
+{% block content %}
+    <div class="d-flex align-items-center justify-content-center min-vh-100">
+        <div class="card shadow-sm" style="max-width:400px; width:100%;">
+            <div class="card-body">
+
+                <!-- Header -->
+                <h2 class="card-title text-center mb-4">Регистрация</h2>
+
+                <!-- Telegram registration button with icon -->
+                <a
+                        href="#"
+                        class="btn btn-outline-bitcoin w-100 mb-3 d-flex align-items-center justify-content-center"
+                >
+                    <img
+                            src="{% static 'img/telegram_dark.svg' %}"
+                            alt="Telegram logo"
+                            width="24"
+                            height="24"
+                            class="me-2"
+                    >
+                    Зарегистрироваться через Telegram
+                </a>
+
+                <div class="text-center text-muted mb-3"><small>или</small></div>
+
+                <!-- Standard registration form -->
+                <form method="post" action="{% url 'authapp:register' %}">
+                    {% csrf_token %}
+
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-bitcoin w-100 mt-3">
+                        Зарегистрироваться
+                    </button>
+                </form>
+
+                <!-- Switch to login -->
+                <p class="text-center mt-3 mb-0">
+                    Уже есть аккаунт?
+                    <a href="#">Войти</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
