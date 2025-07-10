@@ -9,7 +9,7 @@ class TitleListView(ListView):
     model = Title
     template_name = "blogapp/titles_list.html"
     context_object_name = "news_list"
-    paginate_by = 10
+    paginate_by = 8
 
     def get_queryset(self):
         qs = Title.objects.exclude(translated_title__iexact='None')

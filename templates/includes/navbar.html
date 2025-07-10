@@ -1,0 +1,96 @@
+{# includes/navbar.html #}
+{% load static %}
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container">
+
+        {# 1) Brand on the left #}
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'blogapp:index' %}">
+            <img
+                    src="{% static 'img/bit.svg' %}"
+                    alt="Bitcoin logo"
+                    width="32" height="32"
+                    class="me-1"
+            >
+            it News
+        </a>
+
+        {# Mobile toggler #}
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#main-nav"
+                aria-controls="main-nav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        {# 2) Collapsed content: two ULs #}
+        <div class="collapse navbar-collapse" id="main-nav">
+
+            {# -- Centered links -- #}
+            <ul class="navbar-nav mx-auto align-items-center">
+                <li class="nav-item">
+                    <a
+                            class="nav-link d-flex align-items-center"
+                            href="https://t.me/BitPureNews_bot"
+                            target="_blank" rel="noopener"
+                    >
+                        <img
+                                src="{% static 'img/telegram_dark.svg' %}"
+                                alt="Telegram"
+                                width="24" height="24"
+                                class="me-1"
+                        >
+                        Get live updates
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                            class="nav-link d-flex align-items-center"
+                            href="https://21ideas.org/"
+                            target="_blank" rel="noopener"
+                    >
+                        More about
+                        <img
+                                src="{% static 'img/bitcoin2.svg' %}"
+                                alt="Bitcoin"
+                                width="24" height="24"
+                                class="ms-1"
+                        >
+                    </a>
+                </li>
+            </ul>
+
+            {# -- Login button on the right -- #}
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                        {% csrf_token %}
+                        <form method="post" action="{% url 'authapp:logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button
+                                    type="submit"
+                                    class="btn btn-outline-bitcoin ms-lg-3"
+                            >
+                                Logout
+                            </button>
+                        </form>
+
+                    {% else %}
+                        {% csrf_token %}
+                        <a
+                                class="btn btn-outline-bitcoin ms-lg-3"
+                                href="{% url 'authapp:login' %}"
+                        >
+                            Login
+                        </a>
+                    {% endif %}
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>

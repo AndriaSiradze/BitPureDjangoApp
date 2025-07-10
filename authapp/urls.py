@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LogoutView
 from django.urls import path
 
 from authapp import views
@@ -13,8 +14,6 @@ urlpatterns = [
         'login/', views.CustomLoginView.as_view(), name='login'
     ),
     path(
-        'telegram/callback/',
-        views.telegram_auth_callback,
-        name='telegram_callback'
-    ),
+        'logout/', views.CustomLogoutView.as_view(), name='logout'
+    )
 ]
