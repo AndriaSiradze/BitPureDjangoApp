@@ -65,14 +65,14 @@ class CustomLoginView(LoginView):
     template_name = 'authapp/login.html'
     redirect_authenticated_user = True
 
-    def get_context_data(self, **ctx):
-        ctx = super().get_context_data(**ctx)
-        ctx['telegram_login_widget'] = create_callback_login_widget(
-            bot_name     = settings.TELEGRAM_LOGIN_BOT_USERNAME,
-            size         = 'small',
-            user_photo   = True
-        )
-        return ctx
+    # def get_context_data(self, **ctx):
+    #     ctx = super().get_context_data(**ctx)
+    #     ctx['telegram_login_widget'] = create_callback_login_widget(
+    #         bot_name     = settings.TELEGRAM_LOGIN_BOT_USERNAME,
+    #         size         = 'small',
+    #         user_photo   = True
+    #     )
+    #     return ctx
 
     def form_valid(self, form):
         response = super().form_valid(form)

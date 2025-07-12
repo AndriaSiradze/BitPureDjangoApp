@@ -1,16 +1,6 @@
-<!--
-  Components & Rationale:
-  - Used a Bootstrap responsive grid (row + col-12 / col-md-6) so on small screens cards stack
-    and on medium+ screens they sit in two columns.
-  - Each article is a <article>‐style <div class="card news-card" role="link"> with tabindex for
-    keyboard accessibility; JS handles clicks & Enter/Space keypress.
-  - Kept existing design language: Bitcoin-orange border & hover shadow, Inter body font,
-    Montserrat headings, utility spacing (g-4 for gutters, mt-auto for footer alignment).
-  - Semantic markup: <main role="main">, <time> for dates, ARIA attributes to describe interactive cards.
--->
-
 
 {% extends 'blogapp/base.html' %}
+{% load l10n %}
 {% block title %}Главная – Bit News{% endblock %}
 
 {% block content %}
