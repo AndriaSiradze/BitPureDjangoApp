@@ -1,0 +1,33 @@
+<section id="comments" class="container py-5">
+
+    <!-- Comment List -->
+    <ul class="list-unstyled">
+        <!-- Single Comment -->
+        {% for comment in article.comments.all %}
+            <li class="media mb-4">
+
+                <div class="media-body">
+                    <strong>{{ comment.user.get_username }}</strong>
+                    <p class="mt-1">{{ comment.text|linebreaks }}</p>
+                    <small class="text-muted">{{ comment.created_at|date:"j F Y, H:i" }}</small>
+                </div>
+            </li>
+        {% empty %}
+            <p>Комментариев пока нет.</p>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+        <h5>Оставить комментарий</h5>
+        <div class="mb-3">
+            <form method="post">
+                {% csrf_token %}
+                {{ comment_form.text }}
+                <button type="submit" class="btn btn-primary mt-2">Отправить</button>
+            </form>
+        </div>
+    {% else %}
+        <p><a href="#">Войдите</a>, чтобы оставить комментарий</p>
+    {% endif %}
+
+</section>

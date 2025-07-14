@@ -96,48 +96,81 @@
 /* ―― Custom Bitcoin-orange Pagination ―― */
 
 /* 1) Wrap the whole pagination in a single orange border & radius */
-.pagination {
-  display: inline-flex;                /* shrink to fit */
-  border: 1px solid var(--btc-orange);
-  border-radius: 0.5rem;
-  overflow: hidden;                     /* clip children’s borders */
-  padding: 0;                           /* remove any BS5 gutter */
+/* Collapse on mobile: full-width items */
+ @media (max-width: 991px) {
+   .navbar-nav .nav-link,
+   .navbar-nav .btn-outline-bitcoin {
+     width: 100%;
+     text-align: center;
+     margin: 0.25rem 0;
+   }
+ }
+
+/* ―― Book-style horizontal pagination ―― */
+.book-pagination-container {
+  position: relative;
+  overflow: hidden;
 }
 
-/* 2) Kill the individual item borders so they merge cleanly */
-.pagination .page-item + .page-item .page-link {
-  border-left: none;
+.book-page-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10;
+  padding: 0.25rem 0.5rem;
+  color: var(--btc-orange);
+  transition: color .2s ease;
 }
-
-/* 3) Style every link the same base way */
-.pagination .page-link {
-  color: var(--btc-dark);
-  background-color: #fff;
-  border: 1px solid var(--btc-orange);
-  padding: 0.5rem 0.75rem;
-  transition: background-color .2s ease, color .2s ease;
-}
-
-/* 4) Hover/focus state */
-.pagination .page-link:hover,
-.pagination .page-link:focus {
-  background-color: rgba(247, 147, 26, 0.1); /* light orange tint */
+.book-page-btn:hover,
+.book-page-btn:focus {
   color: var(--btc-orange-dark);
-  text-decoration: none;
+  outline: none;
 }
-
-/* 5) Active page */
-.pagination .page-item.active .page-link {
-  background-color: var(--btc-orange);
-  color: #fff;
-  border-color: var(--btc-orange);
-  cursor: default;
-}
-
-/* 6) Disabled arrow/items */
-.pagination .page-item.disabled .page-link {
-  background-color: #f1f1f1;
+.book-page-btn:disabled {
   color: #ccc;
   cursor: not-allowed;
-  pointer-events: none;
 }
+.book-prev {
+  left: 0.5rem;
+}
+.book-next {
+  right: 0.5rem;
+}
+
+.book-pages-container {
+  perspective: 1000px;
+}
+
+.book-page {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.page-exit-left {
+  transform: rotateY(-90deg);
+  opacity: 0;
+}
+.page-exit-right {
+  transform: rotateY(90deg);
+  opacity: 0;
+}
+
+.page-enter-left {
+  transform: rotateY(90deg);
+  opacity: 0;
+}
+.page-enter-right {
+  transform: rotateY(-90deg);
+  opacity: 0;
+}
+
+.page-enter-active {
+  transform: rotateY(0deg);
+  opacity: 1;
+}
+

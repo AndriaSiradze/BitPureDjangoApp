@@ -29,17 +29,40 @@
                         target="_blank"
                         rel="noopener noreferrer"
                 >
-                    Оригинальный источник
+                    источник
                 </a>
             </small>
-            <!-- 4) Back button -->
-            <a
-                    href="{% url 'blogapp:index' %}"
-                    class="btn btn-outline-bitcoin mt-auto align-self-start"
-            >
-                ← Назад к списку
-            </a>
-
         </div>
     </div>
+    {% include 'includes/_comment.html' %}
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('comment-form');
+            const list = document.getElementById('comments-list');
+            if (!form) return;
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const data = new FormData(form);
+                // Fetch автоматически возьмёт hidden-поле csrfmiddlewaretoken из FormData
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    body: data
+                });
+                if (response.ok) {
+                    const html = await response.text();
+                    // вставляем новый комментарий в начало списка
+                    list.insertAdjacentHTML('afterbegin', html);
+                    form.reset();
+                } else {
+                    alert('Ошибка при отправке комментария');
+                }
+            });
+        });
+    </script>
+
 {% endblock %}

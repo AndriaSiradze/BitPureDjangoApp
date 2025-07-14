@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -44,5 +45,20 @@ class Url(models.Model):
     class Meta:
         managed = False
         db_table = 'urls'
+
+
+class Comment(models.Model):
+    article = models.ForeignKey('Title', on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField(verbose_name='comment text')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"comment #{self.pk} for title {self.article}"
+
+
 
 
