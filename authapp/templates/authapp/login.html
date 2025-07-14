@@ -13,11 +13,15 @@
 
                 <!-- Header -->
                 <h2 class="card-title text-center mb-4">Вход</h2>
-
                 <!-- Telegram login -->
-                <a href="#" class="btn btn-outline-bitcoin w-100">
-                    Войти через Telegram
-                </a>
+                <script async src="https://telegram.org/js/telegram-widget.js?15"
+                        data-telegram-login="{{ TELEGRAM_LOGIN_BOT_USERNAME }}"
+                        data-size="large"
+                        data-userpic="true"
+                        data-auth-url="{% url 'authapp:telegram_auth_callback' %}"
+                        data-request-access="write">
+                </script>
+
                 <div class="text-center text-muted mb-3"><small>или</small></div>
 
                 <!-- Standard login form -->
