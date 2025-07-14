@@ -4,14 +4,14 @@
     <div class="container">
 
         {# 1) Brand on the left #}
-        <a class="navbar-brand d-flex align-items-center" href="{% url 'blogapp:index' %}">
+        <a class="navbar-brand" href="{% url 'blogapp:index' %}">
+
             <img
-                    src="{% static 'img/bit.svg' %}"
-                    alt="Bitcoin logo"
-                    width="32" height="32"
-                    class="me-1"
+                    src="{% static 'img/bitpulse-shitty-logo.png' %}"
+                    alt="Site Logo"
+                    class="d-inline-block align-text-top"
+                    style="max-height: 50px;"
             >
-            it News
         </a>
 
         {# Mobile toggler #}
@@ -27,10 +27,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        {# 2) Collapsed content: two ULs #}
         <div class="collapse navbar-collapse" id="main-nav">
 
-            {# -- Centered links -- #}
             <ul class="navbar-nav mx-auto align-items-center">
                 <li class="nav-item">
                     <a
@@ -44,7 +42,7 @@
                                 width="24" height="24"
                                 class="me-1"
                         >
-                        Get live updates
+                        Читать в Телеграм
                     </a>
                 </li>
                 <li class="nav-item">
@@ -53,7 +51,7 @@
                             href="https://21ideas.org/"
                             target="_blank" rel="noopener"
                     >
-                        More about
+                        Все о Биткоине
                         <img
                                 src="{% static 'img/bitcoin2.svg' %}"
                                 alt="Bitcoin"
