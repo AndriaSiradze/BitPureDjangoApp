@@ -45,7 +45,7 @@ def telegram_auth_callback(request):
     user, _ = User.objects.get_or_create(
         telegram=telegram_user,
         defaults={
-            'username': f"tg_{telegram_user.user_id}",
+            'username': f"{telegram_user.full_name}",
             'first_name': user_info.get('first_name', ''),
             'last_name': user_info.get('last_name', ''),
             'email': f"{user_info.get('username', telegram_user.user_id)}@telegram",

@@ -9,7 +9,9 @@
             <h1 class="card-title">{{ article.translated_title|safe }}</h1>
             <!-- 3) Full content -->
             <div class="card-text content-body mb-4">
-                {{ article.translated_post|safe }}
+                {% autoescape on %}
+                    {{ article.translated_post|safe }}
+                {% endautoescape %}
             </div>
             <!-- 2) Date & tags row -->
             <div class="mb-3 d-flex justify-content-between align-items-center info-row">

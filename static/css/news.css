@@ -47,130 +47,148 @@
 
 /* ――― Web-App Sticky Navbar ――― */
 .navbar {
-  position: sticky;
-  top: 0;
-  z-index: 1020;
-  background-color: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 0.5rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem;
 }
 
 /* Brand & links */
 .navbar-brand {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.5rem;
-  color: var(--btc-dark);
-  transition: color 0.2s;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    color: var(--btc-dark);
+    transition: color 0.2s;
 }
+
 .navbar-brand:hover {
-  color: var(--btc-orange-dark);
+    color: var(--btc-orange-dark);
 }
 
 .navbar-nav .nav-link {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  color: var(--btc-dark);
-  margin: 0 0.75rem;
-  transition: color 0.2s;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--btc-dark);
+    margin: 0 0.75rem;
+    transition: color 0.2s;
 }
+
 .navbar-nav .nav-link:hover {
-  color: var(--btc-orange);
+    color: var(--btc-orange);
 }
 
 /* Login button in navbar */
 .navbar-nav .btn-outline-bitcoin {
-  font-weight: 500;
-  padding: 0.35rem 0.9rem;
+    font-weight: 500;
+    padding: 0.35rem 0.9rem;
 }
 
 /* Collapse on mobile: full-width items */
 @media (max-width: 991px) {
-  .navbar-nav .nav-link,
-  .navbar-nav .btn-outline-bitcoin {
-    width: 100%;
-    text-align: center;
-    margin: 0.25rem 0;
-  }
+    .navbar-nav .nav-link,
+    .navbar-nav .btn-outline-bitcoin {
+        width: 100%;
+        text-align: center;
+        margin: 0.25rem 0;
+    }
 }
 
 /* ―― Custom Bitcoin-orange Pagination ―― */
 
 /* 1) Wrap the whole pagination in a single orange border & radius */
 /* Collapse on mobile: full-width items */
- @media (max-width: 991px) {
-   .navbar-nav .nav-link,
-   .navbar-nav .btn-outline-bitcoin {
-     width: 100%;
-     text-align: center;
-     margin: 0.25rem 0;
-   }
- }
+@media (max-width: 991px) {
+    .navbar-nav .nav-link,
+    .navbar-nav .btn-outline-bitcoin {
+        width: 100%;
+        text-align: center;
+        margin: 0.25rem 0;
+    }
+}
 
 /* ―― Book-style horizontal pagination ―― */
 .book-pagination-container {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .book-page-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  background: none;
-  font-size: 2rem;
-  cursor: pointer;
-  z-index: 10;
-  padding: 0.25rem 0.5rem;
-  color: var(--btc-orange);
-  transition: color .2s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+    padding: 0.25rem 0.5rem;
+    color: var(--btc-orange);
+    transition: color .2s ease;
 }
+
 .book-page-btn:hover,
 .book-page-btn:focus {
-  color: var(--btc-orange-dark);
-  outline: none;
+    color: var(--btc-orange-dark);
+    outline: none;
 }
+
 .book-page-btn:disabled {
-  color: #ccc;
-  cursor: not-allowed;
+    color: #ccc;
+    cursor: not-allowed;
 }
+
 .book-prev {
-  left: 0.5rem;
+    left: 0.5rem;
 }
+
 .book-next {
-  right: 0.5rem;
+    right: 0.5rem;
 }
 
 .book-pages-container {
-  perspective: 1000px;
+    perspective: 1000px;
 }
 
 .book-page {
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  transition: transform 0.6s ease, opacity 0.6s ease;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease, opacity 0.6s ease;
 }
 
 .page-exit-left {
-  transform: rotateY(-90deg);
-  opacity: 0;
+    transform: rotateY(-90deg);
+    opacity: 0;
 }
+
 .page-exit-right {
-  transform: rotateY(90deg);
-  opacity: 0;
+    transform: rotateY(90deg);
+    opacity: 0;
 }
 
 .page-enter-left {
-  transform: rotateY(90deg);
-  opacity: 0;
+    transform: rotateY(90deg);
+    opacity: 0;
 }
+
 .page-enter-right {
-  transform: rotateY(-90deg);
-  opacity: 0;
+    transform: rotateY(-90deg);
+    opacity: 0;
 }
 
 .page-enter-active {
-  transform: rotateY(0deg);
-  opacity: 1;
+    transform: rotateY(0deg);
+    opacity: 1;
 }
 
+.badge {
+    color: #FF9500;
+    border: 1px solid;
+    border-color: #FF9500;
+}
+
+.content-body {
+    white-space: pre-line; /* respect \n but still collapse multiple spaces */
+    /* white-space: pre-wrap;  <-- use this if you also want to keep multiple spaces/tabs */
+}

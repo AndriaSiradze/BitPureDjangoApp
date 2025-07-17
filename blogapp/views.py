@@ -15,6 +15,8 @@ class TitleListView(ListView):
 
     def get_queryset(self):
         qs = Title.objects.exclude(translated_title__iexact='None')
+        for title in qs:
+            print(title.translated_post)
         qs = qs.prefetch_related('tags')
         return qs.order_by('-created_at')
 
