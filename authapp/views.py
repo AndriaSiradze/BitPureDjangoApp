@@ -1,37 +1,46 @@
 import hashlib
 import hmac
-import time
+import json
 
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
-from django.http import HttpResponseBadRequest, HttpResponse
-from django.shortcuts import redirect
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 
 from authapp.forms import CustomUserCreationForm
-from authapp.models import User, TelegramBotUser
+from authapp.models import TelegramBotUser, User
 
 
-def verify_telegram_authentication(bot_token, request_data):
-    """
-    https://core.telegram.org/widgets/login#checking-authorization
-    """
-    auth_data = dict(request_data)
-    auth_data.pop('hash', None)
-    data_check_string = "\n".join([f"{k}={auth_data[k]}" for k in sorted(auth_data)])
+def check_telegram_auth(auth_data, bot_token):
+    auth_hash = auth_data.pop('hash')
+    data_check_string = '\n'.join([f"{k}={auth_data[k]}" for k in sorted(auth_data.keys())])
     secret_key = hashlib.sha256(bot_token.encode()).digest()
-    hash_ = hmac.new(secret_key, data_check_string.encode(), hashlib.sha256).hexdigest()
-    return hash_ == request_data.get('hash')
+    hmac_hash = hmac.new(secret_key, data_check_string.encode(), hashlib.sha256).hexdigest()
+    return hmac_hash == auth_hash
 
 
-def telegram_auth_callback(request):
-    print("=== TELEGRAM CALLBACK TRIGGERED ===", request.GET)
-    return HttpResponse("CALLBACK: " + str(request.GET))
+@csrf_exempt
+def telegram_login(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        # Validate Telegram data
+        print('TELEGRAM DATA:', data)
+        print('BOT TOKEN:', settings.TELEGRAM_LOGIN_BOT_TOKEN)
+        if not check_telegram_auth(data.copy(), settings.TELEGRAM_LOGIN_BOT_TOKEN):
+            return JsonResponse({'error': 'Invalid Telegram data'}, status=403)
+        telegram_id = data['id']
+        username = data.get('username', '')
+        first_name = data.get('first_name', '')
+        user, created = User.objects.get_or_create(username=f"tg_{telegram_id}", defaults={'first_name': first_name})
+        login(request, user)
+        return JsonResponse({'redirect_url': '/'})  # Redirect to homepage after login
+    return JsonResponse({'error': 'POST required'}, status=405)
 
 
 class CustomLoginView(LoginView):

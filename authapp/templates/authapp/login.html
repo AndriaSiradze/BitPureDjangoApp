@@ -14,14 +14,12 @@
                 <h2 class="card-title text-center mb-4">Вход</h2>
                 <!-- Telegram login -->
                 <script async src="https://telegram.org/js/telegram-widget.js?7"
-                        data-telegram-login="BitPureNews_bot"
+                        data-telegram-login="{{ TELEGRAM_LOGIN_BOT_USERNAME }}"
                         data-size="large"
+                        data-request-access="write"
                         data-userpic="false"
-                        data-radius="10"
-                        data-auth-url="https://3f8556857509.ngrok-free.app{% url 'authapp:telegram_auth_callback' %}"
-                        data-request-access="write"></script>
-
-
+                        data-onauth="onTelegramAuth(user)"
+                ></script>
                 <div class="text-center text-muted mb-3"><small>или</small></div>
 
                 <!-- Standard login form -->
@@ -41,4 +39,25 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block extra_js %}
+    <script type="text/javascript">
+        function onTelegramAuth(user) {
+            fetch('{% url "authapp:telegram_auth_callback" %}', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(user)
+            }).then(response => response.json())
+                .then(data => {
+                    if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                    } else if (data.error) {
+                        alert(data.error); // Show the error to user
+                    } else {
+                        alert("Unexpected error");
+                    }
+                });
+        }
+
+    </script>
 {% endblock %}

@@ -40,8 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'crispy_bootstrap4',
-    'blogapp.apps.BlogConfig',
-    'authapp.apps.AuthappConfig',
+    'blogapp',
+    'authapp',
+]
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -139,8 +143,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 TELEGRAM_LOGIN_BOT_USERNAME = env.str('TELEGRAM_LOGIN_BOT_USERNAME')
 TELEGRAM_LOGIN_BOT_TOKEN = env.str('BOT_TOKEN')
-
-
-SESSION_COOKIE_SECURE = False   # Если тестируешь через http
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
+SESSION_COOKIE_SECURE = False  # Если тестируешь через http
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SAMESITE = None
