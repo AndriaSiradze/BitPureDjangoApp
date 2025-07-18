@@ -23,6 +23,4 @@ urlpatterns = [
     path(
         'authapp/', include('authapp.urls', namespace='authapp')
     ),
-    path('accounts/', include('allauth.urls')),
-
 ]

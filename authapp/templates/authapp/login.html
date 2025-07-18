@@ -1,7 +1,6 @@
 {# ==== CustomLoginView login.html ==== #}
 {% extends 'blogapp/base.html' %}
 
-{% load socialaccount %}
 {% load crispy_forms_tags %}
 {% load static %}
 {% block title %}Вход – Bit News{% endblock %}
@@ -14,13 +13,14 @@
                 <!-- Header -->
                 <h2 class="card-title text-center mb-4">Вход</h2>
                 <!-- Telegram login -->
-                <script async src="https://telegram.org/js/telegram-widget.js?15"
-                        data-telegram-login="{{ TELEGRAM_LOGIN_BOT_USERNAME }}"
+                <script async src="https://telegram.org/js/telegram-widget.js?7"
+                        data-telegram-login="BitPureNews_bot"
                         data-size="large"
-                        data-userpic="true"
-                        data-auth-url="{% url 'authapp:telegram_auth_callback' %}"
-                        data-request-access="write">
-                </script>
+                        data-userpic="false"
+                        data-radius="10"
+                        data-auth-url="https://3f8556857509.ngrok-free.app{% url 'authapp:telegram_auth_callback' %}"
+                        data-request-access="write"></script>
+
 
                 <div class="text-center text-muted mb-3"><small>или</small></div>
 

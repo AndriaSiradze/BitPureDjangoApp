@@ -1,60 +1,37 @@
+import hashlib
+import hmac
+import time
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
-from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
-from django_telegram_login.authentication import verify_telegram_authentication
-from django_telegram_login.errors import NotTelegramDataError, TelegramDataIsOutdatedError
 
 from authapp.forms import CustomUserCreationForm
 from authapp.models import User, TelegramBotUser
 
 
-@csrf_exempt
+def verify_telegram_authentication(bot_token, request_data):
+    """
+    https://core.telegram.org/widgets/login#checking-authorization
+    """
+    auth_data = dict(request_data)
+    auth_data.pop('hash', None)
+    data_check_string = "\n".join([f"{k}={auth_data[k]}" for k in sorted(auth_data)])
+    secret_key = hashlib.sha256(bot_token.encode()).digest()
+    hash_ = hmac.new(secret_key, data_check_string.encode(), hashlib.sha256).hexdigest()
+    return hash_ == request_data.get('hash')
+
+
 def telegram_auth_callback(request):
-    data = request.GET.dict()
-
-    try:
-        user_info = verify_telegram_authentication(
-            bot_token=settings.TELEGRAM_LOGIN_BOT_TOKEN,
-            request_data=data
-        )
-    except TelegramDataIsOutdatedError:
-        return HttpResponseBadRequest('Telegram data is older than 24 hours')
-    except NotTelegramDataError:
-        return HttpResponseBadRequest('Invalid Telegram authentication data')
-
-    telegram_user, _ = TelegramBotUser.objects.get_or_create(
-        user_id=user_info['id'],
-        defaults={
-            'username': user_info.get('username'),
-            'full_name': f"{user_info.get('first_name', '')} {user_info.get('last_name', '')}".strip(),
-            'active': True,
-            'language': user_info.get('language_code', 'en'),
-            'created_at': timezone.now(),
-        }
-    )
-
-    user, _ = User.objects.get_or_create(
-        telegram=telegram_user,
-        defaults={
-            'username': f"{telegram_user.full_name}",
-            'first_name': user_info.get('first_name', ''),
-            'last_name': user_info.get('last_name', ''),
-            'email': f"{user_info.get('username', telegram_user.user_id)}@telegram",
-        }
-    )
-
-    login(request, user)
-
-    return redirect('blogapp:index')
+    print("=== TELEGRAM CALLBACK TRIGGERED ===", request.GET)
+    return HttpResponse("CALLBACK: " + str(request.GET))
 
 
 class CustomLoginView(LoginView):

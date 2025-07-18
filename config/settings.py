@@ -38,29 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.telegram',
-
     'crispy_forms',
     'crispy_bootstrap4',
     'blogapp.apps.BlogConfig',
-    'authapp.apps.AuthappConfig'
-
+    'authapp.apps.AuthappConfig',
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -135,7 +125,6 @@ if DEBUG:
 else:
     STATIC_ROOT = [BASE_DIR / "static"]
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -148,6 +137,10 @@ LOGOUT_REDIRECT_URL = 'blogapp:index'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-SITE_ID = 1
 TELEGRAM_LOGIN_BOT_USERNAME = env.str('TELEGRAM_LOGIN_BOT_USERNAME')
 TELEGRAM_LOGIN_BOT_TOKEN = env.str('BOT_TOKEN')
+
+
+SESSION_COOKIE_SECURE = False   # Если тестируешь через http
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SAMESITE = None

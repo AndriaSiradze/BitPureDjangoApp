@@ -15,6 +15,4 @@ urlpatterns = [
     path(
         'logout/', views.CustomLogoutView.as_view(), name='logout'
     ),
-    path('telegram/callback/', views.telegram_auth_callback, name='telegram_auth_callback'),
-
 ]
