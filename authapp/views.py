@@ -35,9 +35,11 @@ def telegram_login(request):
         if not check_telegram_auth(data.copy(), settings.TELEGRAM_LOGIN_BOT_TOKEN):
             return JsonResponse({'error': 'Invalid Telegram data'}, status=403)
         telegram_id = data['id']
-        username = data.get('username', '')
+        username = data.get('fullname', '')
         first_name = data.get('first_name', '')
-        user, created = User.objects.get_or_create(username=f"tg_{telegram_id}", defaults={'first_name': first_name})
+        user, created = User.objects.get_or_create(username=f"{username}",
+                                                   telegram_id=telegram_id,
+                                                   defaults={'first_name': first_name})
         login(request, user)
         return JsonResponse({'redirect_url': '/'})  # Redirect to homepage after login
     return JsonResponse({'error': 'POST required'}, status=405)
