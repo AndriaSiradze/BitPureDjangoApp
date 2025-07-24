@@ -99,14 +99,6 @@
 
 /* 1) Wrap the whole pagination in a single orange border & radius */
 /* Collapse on mobile: full-width items */
-@media (max-width: 991px) {
-    .navbar-nav .nav-link,
-    .navbar-nav .btn-outline-bitcoin {
-        width: 100%;
-        text-align: center;
-        margin: 0.25rem 0;
-    }
-}
 
 /* ―― Book-style horizontal pagination ―― */
 .book-pagination-container {
@@ -192,3 +184,29 @@
     white-space: pre-line; /* respect \n but still collapse multiple spaces */
     /* white-space: pre-wrap;  <-- use this if you also want to keep multiple spaces/tabs */
 }
+
+.icon-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    line-height: 1;
+    color: var(--btc-dark);
+}
+
+.custom-dropdown {
+    min-width: 220px;
+    z-index: 1050;
+}
+
+
+.custom-dropdown .dropdown-item {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+#burgerMenu {
+  right: 0;
+  transform: none; /* disable translateX */
+  min-width: 220px;
+}
+

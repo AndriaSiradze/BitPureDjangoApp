@@ -7,7 +7,6 @@
         <div class="card-body d-flex flex-column">
             <!-- 1) Title -->
             <h1 class="card-title">{{ article.translated_title|safe }}</h1>
-            <!-- 3) Full content -->
             <div class="card-text content-body mb-4">
                 {% autoescape on %}
                     {{ article.translated_post|safe }}

@@ -28,14 +28,14 @@ def check_telegram_auth(auth_data, bot_token):
 @csrf_exempt
 def telegram_login(request):
     if request.method == 'POST':
+        print(request)
         data = json.loads(request.body)
         # Validate Telegram data
-        print('TELEGRAM DATA:', data)
-        print('BOT TOKEN:', settings.TELEGRAM_LOGIN_BOT_TOKEN)
         if not check_telegram_auth(data.copy(), settings.TELEGRAM_LOGIN_BOT_TOKEN):
             return JsonResponse({'error': 'Invalid Telegram data'}, status=403)
         telegram_id = data['id']
-        username = data.get('fullname', '')
+        print(data)
+        username = data.get('username', '')
         first_name = data.get('first_name', '')
         user, created = User.objects.get_or_create(username=f"{username}",
                                                    telegram_id=telegram_id,
