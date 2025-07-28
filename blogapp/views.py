@@ -1,4 +1,9 @@
+import logging
+
+from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.views.generic import ListView, DetailView
 
 from blogapp.forms import CommentForm
@@ -6,12 +11,23 @@ from blogapp.models import Title
 
 
 # Create your views here.
+def load_more_news(request):
+    page_number = request.GET.get("page")
+    news = Title.objects.exclude(translated_title__iexact='not related').prefetch_related('tags').order_by('-created_at')
+    paginator = Paginator(news, 21)
+    try:
+        page_obj = paginator.page(page_number)
+    except Exception as err:
+        logging.info(err)
+        return HttpResponse("")  # если нет такой страницы, вернём пусто
+    html = render_to_string("includes/_news_card_list.html", {"news_list": page_obj})
+    return HttpResponse(html)
 
 class TitleListView(ListView):
     model = Title
     template_name = "blogapp/titles_list.html"
     context_object_name = "news_list"
-    paginate_by = 6
+    paginate_by = 20
 
     def get_queryset(self):
         qs = Title.objects.exclude(translated_title__iexact='not related')
