@@ -205,8 +205,13 @@
 }
 
 #burgerMenu {
-  right: 0;
-  transform: none; /* disable translateX */
-  min-width: 220px;
+    right: 0;
+    transform: none; /* disable translateX */
+    min-width: 220px;
 }
 
+#custom-spinner {
+    color: #FF9500;
+    border-color: #FF9500;
+    border-right-color: transparent;
+}

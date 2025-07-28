@@ -23,22 +23,24 @@
             <div id="burgerMenu"
                  class="custom-dropdown d-none position-absolute mt-2 bg-white rounded p-3 text-center">
                 {% if user.is_authenticated %}
-                    <a class="dropdown-item mb-2" href="#">О проекте</a>
-                    <a class="dropdown-item mb-2" href="#">Подписаться</a>
+                    <a class="dropdown-item mb-2" href={% url 'blogapp:about' %}>О проекте</a>
+                    <a class="dropdown-item mb-2" href={% url 'blogapp:premium' %}>Подписаться</a>
                     <form method="post" action="{% url 'authapp:logout' %}">
                         {% csrf_token %}
                         <button class="dropdown-item" type="submit">Выйти</button>
                     </form>
                 {% else %}
-                    <a class="dropdown-item mb-2" href="#">О проекте</a>
-                    <a class="dropdown-item mb-2" href="#">О подписке</a>
-                    <a class="dropdown-item" href="{% url 'authapp:login' %}">Войти</a>
+                    <a class="dropdown-item mb-2" href={% url 'blogapp:about' %}>О проекте</a>
+                    <a class="dropdown-item mb-2" href={% url 'blogapp:premium' %}>О подписке</a>
+                    {% if user.is_superuser %}
+                        <a class="dropdown-item" href="{% url 'authapp:login' %}">Войти</a>
+                    {% endif %}
                 {% endif %}
                 <br>
-                <a class="dropdown-item mb-2" href="https://t.me/BitPureNews_bot"
-                   target="_blank">
-                    Читать в Телеграм
-                </a>
+                {#                <a class="dropdown-item mb-2" href="https://t.me/BitPureNews_bot"#}
+                {#                   target="_blank">#}
+                {#                    Читать в Телеграм#}
+                {#                </a>#}
                 <a class="dropdown-item mb-2" href="https://21ideas.org/" target="_blank">
                     Все о Биткоине
                 </a>

@@ -1,10 +1,12 @@
 import logging
+from datetime import timedelta
 
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
-from django.views.generic import ListView, DetailView
+from django.utils import timezone
+from django.views.generic import ListView, DetailView, TemplateView
 
 from blogapp.forms import CommentForm
 from blogapp.models import Title
@@ -13,7 +15,8 @@ from blogapp.models import Title
 # Create your views here.
 def load_more_news(request):
     page_number = request.GET.get("page")
-    news = Title.objects.exclude(translated_title__iexact='not related').prefetch_related('tags').order_by('-created_at')
+    news = Title.objects.exclude(translated_title__iexact='not related').prefetch_related('tags').order_by(
+        '-created_at')
     paginator = Paginator(news, 21)
     try:
         page_obj = paginator.page(page_number)
@@ -23,6 +26,7 @@ def load_more_news(request):
     html = render_to_string("includes/_news_card_list.html", {"news_list": page_obj})
     return HttpResponse(html)
 
+
 class TitleListView(ListView):
     model = Title
     template_name = "blogapp/titles_list.html"
@@ -30,7 +34,9 @@ class TitleListView(ListView):
     paginate_by = 20
 
     def get_queryset(self):
+        one_hour_ago = timezone.now() - timedelta(hours=1)
         qs = Title.objects.exclude(translated_title__iexact='not related')
+        qs = qs.filter(created_at__lt=one_hour_ago)  # ← фильтр по времени
         qs = qs.prefetch_related('tags')
         return qs.order_by('-created_at')
 
@@ -62,3 +68,9 @@ class TitleDetailView(DetailView):
                     status=201
                 )
         return redirect('blogapp:title_detail', pk=self.object.pk)
+
+class AboutView(TemplateView):
+    template_name = 'blogapp/about.html'
+
+class PremiumView(TemplateView):
+    template_name = 'blogapp/premium.html'
