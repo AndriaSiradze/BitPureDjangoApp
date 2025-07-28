@@ -12,6 +12,11 @@
             {% endfor %}
         </div>
     </main>
+    <div id="loading-spinner" class="text-center my-4 d-none">
+        <div class="spinner-border" id="custom-spinner" role="status">
+            <span class="visually-hidden">Загрузка...</span>
+        </div>
+    </div>
 {% endblock %}
 
 
@@ -27,6 +32,7 @@
             const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 300;
 
             if (nearBottom) {
+                document.getElementById("loading-spinner").classList.remove("d-none");
                 isLoading = true;
                 currentPage++;
 
@@ -52,6 +58,7 @@
                     console.error("Ошибка при загрузке новостей:", err);
                 } finally {
                     isLoading = false;
+                    document.getElementById("loading-spinner").classList.add("d-none");
                 }
             }
         });

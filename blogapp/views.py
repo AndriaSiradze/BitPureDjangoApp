@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils import timezone
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 
 from blogapp.forms import CommentForm
 from blogapp.models import Title
@@ -68,3 +68,9 @@ class TitleDetailView(DetailView):
                     status=201
                 )
         return redirect('blogapp:title_detail', pk=self.object.pk)
+
+class AboutView(TemplateView):
+    template_name = 'blogapp/about.html'
+
+class PremiumView(TemplateView):
+    template_name = 'blogapp/premium.html.html'
