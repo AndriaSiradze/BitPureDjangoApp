@@ -73,4 +73,4 @@ class AboutView(TemplateView):
     template_name = 'blogapp/about.html'
 
 class PremiumView(TemplateView):
-    template_name = 'blogapp/premium.html.html'
+    template_name = 'blogapp/premium.html'
